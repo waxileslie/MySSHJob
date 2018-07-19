@@ -1,5 +1,5 @@
 # MySSHJob
 Java/SSH
 
-#### 使用SSH、MySQL写的个人博客
+#### 使用了SSH、MySQL、CSS、JS、JQuery。
 

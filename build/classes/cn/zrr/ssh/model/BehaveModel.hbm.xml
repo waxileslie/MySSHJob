@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping default-access="property" schema="homework" package="cn.zrr.ssh.model">
+
+    <class name="BehaveModel" table="oa_behave" lazy="true">
+        <id name="no"  column="BNO">
+            <generator class="identity"/>
+        </id>
+        
+        <property name="name" column="Bname"/>
+        
+        <!-- 多对多 -->
+        <set name="users" table="oa_employeebehave">
+          <key column="BNO" />
+          <many-to-many class="UserModel" column="number" />
+        </set>
+        
+    </class>
+
+</hibernate-mapping>

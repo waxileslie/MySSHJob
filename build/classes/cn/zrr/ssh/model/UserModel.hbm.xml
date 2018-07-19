@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping default-access="property" schema="homework" package="cn.zrr.ssh.model">
+
+    <class name="UserModel" table="HW_user" lazy="false">
+        <id name="number"  column="number">    
+        </id>
+        <property name="username" column="username"/>
+        <property name="name" column="name"/>
+        <property name="password" column="password"/>
+        <property name="email" column="email"/>
+        <property name="phone" column="phone"/>
+
+        <!-- 多对多 -->
+        <set name="behaves" table="oa_employeebehave">
+          <key column="EMPID" />
+          <many-to-many class="BehaveModel" column="BNO" />
+        </set>
+        <!-- 一对一 -->
+        <one-to-one name="address" cascade="all" lazy="false" />
+        
+        
+    </class>
+
+</hibernate-mapping>

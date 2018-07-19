@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+
+<struts>
+	<constant name="struts.enable.DynamicMethodInvocation" value="false" />
+	<constant name="struts.devMode" value="true" />
+
+	<package name="default" namespace="/" extends="struts-default">
+
+ 		<interceptors>
+			<interceptor name="loginCheck" class="cn.zrr.ssh.interceptor.LoginCheckInteceptor" />
+			<interceptor name="ipCheck" class="cn.zrr.ssh.interceptor.IpCheckInteceptor" />
+			<interceptor-stack name="blogStack">
+				<interceptor-ref name="defaultStack" />
+				<interceptor-ref name="ipCheck" />
+				<interceptor-ref name="loginCheck" />
+			</interceptor-stack>
+		</interceptors>
+
+		<default-interceptor-ref name="blogStack" />
+
+		<global-results>
+			<result name="ip" type="redirect">error/iperror.jsp</result>		
+			<result name="error" type="redirect">error/error.jsp</result>
+			<result name="login" type="redirect">user/login.jsp</result>
+		</global-results>
+		<global-exception-mappings>
+			<exception-mapping result="error" exception="java.lang.Exception" />
+			<exception-mapping result="error" exception="cn.zrr.ssh.exception.DbException" />
+			<exception-mapping result="error" exception="cn.zrr.ssh.exception.FileException" />
+		</global-exception-mappings>
+
+		<action name="tohome" class="cn.zrr.ssh.action.HomeFrontAction">
+			<result name="success">/home.jsp</result>
+		</action>
+	</package>
+
+	<package name="user" namespace="/user" extends="struts-default">
+
+		<action name="register" class="cn.zrr.ssh.action.UserRegisterAction">
+			<result name="success">login.jsp</result>
+			<result name="failed">registerFailed.jsp</result>
+			<result name="input">register.jsp</result>
+		</action>
+		<action name="login" class="cn.zrr.ssh.action.UserLoginAction">
+			<result name="success">loginSucceed.jsp</result>
+			<result name="nouser">loginNoUser.jsp</result>
+			<result name="failed">loginFailed.jsp</result>
+			<result name="input">login.jsp</result>
+		</action>
+		<action name="logout" class="cn.zrr.ssh.action.UserLogoutAction">
+			<result name="success" type="redirect">login.jsp</result>
+		</action>
+		<action name="modify" class="cn.zrr.ssh.action.UserModifyAction">
+			<result name="success" type="redirect">/tohome.do</result>
+			<result name="failed">modifyFailed.jsp</result>
+		</action>
+		<action name="remove" class="cn.zrr.ssh.action.UserRemoveAction">
+			<result name="success" type="redirect">logout.do</result>
+		</action>
+		<action name="*">  
+  			<result>/{1}.jsp</result>  
+		</action>  
+	</package>
+
+	<package name="blog" namespace="/blog" extends="struts-default">
+		<action name="toblog" class="cn.zrr.ssh.action.BlogFrontAction">
+			<result name="success">view.jsp</result>
+		</action>
+		<action name="tomodifyblog" class="cn.zrr.ssh.action.BlogModifyFrontAction">
+			<result name="success">modify.jsp</result>
+		</action>
+		<action name="edit" class="cn.zrr.ssh.action.BlogEditAction">
+			<result name="success" type="redirect">/tohome.do</result>
+		</action>
+		<action name="modify" class="cn.zrr.ssh.action.BlogModifyAction">
+			<result name="success" type="redirect">/tohome.do</result>
+		</action>
+		<action name="remove" class="cn.zrr.ssh.action.BlogRemoveAction">
+			<result name="success" type="redirect">/tohome.do</result>
+		</action>
+	</package>
+
+	<package name="comment" namespace="/comment" extends="struts-default">
+		<action name="edit" class="cn.zrr.ssh.action.CommentEditAction">
+			<result name="success" type="redirect">/tohome.do</result>
+		</action>
+		<action name="remove" class="cn.zrr.ssh.action.CommentRemoveAction">
+			<result name="success" type="redirect">/tohome.do</result>
+		</action>
+	</package>
+
+	<package name="message" namespace="/message" extends="struts-default">
+		<action name="tomessage" class="cn.zrr.ssh.action.MessageFrontAction">
+			<result name="success">message.jsp</result>
+		</action>
+		<action name="message" class="cn.zrr.ssh.action.MessageFrontAction">
+			<result name="success">message.jsp</result>
+		</action>
+		
+		<action name="write" class="cn.zrr.ssh.action.MessageWriteAction">
+			<result name="success" type="redirect">tomessage.do</result>
+		</action>
+		<action name="remove" class="cn.zrr.ssh.action.MessageRemoveAction">
+			<result name="success" type="redirect">tomessage.do</result>
+		</action>
+	</package>
+
+	<package name="picture" namespace="/picture" extends="struts-default">
+		<action name="upload" class="cn.zrr.ssh.action.PictureUploadAction">
+			<result name="success" type="redirect">topicture.do</result>
+		</action>
+		<action name="topicture" class="cn.zrr.ssh.action.PictureFrontAction">
+			<result name="success">picture.jsp</result>
+		</action>
+		<action name="topicturemodify" class="cn.zrr.ssh.action.PictureModifyFrontAction">
+			<result name="success">modify.jsp</result>
+		</action>
+		<action name="topictureview" class="cn.zrr.ssh.action.PictureViewFrontAction">
+			<result name="success">view.jsp</result>
+		</action>
+		<action name="showimage" class="cn.zrr.ssh.action.PictureShowImageAction">
+			<result name="success" type="stream">inputStream</result>
+		</action>
+		<action name="modify" class="cn.zrr.ssh.action.PictureModifyAction">
+			<result name="success" type="redirect">topicture.do</result>
+		</action>
+		<action name="remove" class="cn.zrr.ssh.action.PictureRemoveAction">
+			<result name="success" type="redirect">topicture.do</result>
+		</action>
+	</package>
+
+
+</struts>
